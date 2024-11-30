@@ -27,6 +27,9 @@ func (r *CentralRepository) GetAll() ([]domain.Central, error) {
 func (r *CentralRepository) GetByID(id uint) (*domain.Central, error) {
 	var user domain.Central
 	err := r.DB.First(&user, id).Error
+	if err != nil {
+		return nil, err
+	}
 	return &user, err
 }
 
