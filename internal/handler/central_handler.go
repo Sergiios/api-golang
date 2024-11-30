@@ -3,31 +3,48 @@ package handler
 import (
 	"api-golang/internal/domain"
 	"api-golang/internal/usecase"
+	"api-golang/internal/utils"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 )
 
 type CentralHandler struct {
-	UseCase *usecase.CentralUseCase
+	UseCase   *usecase.CentralUseCase
+	Validator *validator.Validate
 }
 
 func NewCentralHandler(uc *usecase.CentralUseCase) *CentralHandler {
-	return &CentralHandler{UseCase: uc}
+	return &CentralHandler{
+		UseCase:   uc,
+		Validator: validator.New(),
+	}
 }
 
-// Create User
+// Create Central
 func (h *CentralHandler) CreateCentral(c *fiber.Ctx) error {
-	var cental domain.Central
-	if err := c.BodyParser(&cental); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+	var central domain.Central
+
+	// Parse JSON do corpo da requisição
+	if err := c.BodyParser(&central); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid payload"})
 	}
-	if err := h.UseCase.CreateCentral(&cental); err != nil {
+
+	// Validação usando Validator
+	if err := h.Validator.Struct(central); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": utils.FormatValidationErrors(err),
+		})
+	}
+
+	// Chama o caso de uso para criar a central
+	if err := h.UseCase.CreateCentral(&central); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
-	return c.Status(fiber.StatusCreated).JSON(cental)
+	return c.Status(fiber.StatusCreated).JSON(central)
 }
 
-// Get All Users
+// Get All Centrals
 func (h *CentralHandler) GetAllCentrals(c *fiber.Ctx) error {
 	centrals, err := h.UseCase.GetAllCentrals()
 	if err != nil {
@@ -36,7 +53,7 @@ func (h *CentralHandler) GetAllCentrals(c *fiber.Ctx) error {
 	return c.JSON(centrals)
 }
 
-// Get User by ID
+// Get Central by ID
 func (h *CentralHandler) GetCentralByID(c *fiber.Ctx) error {
 	id, _ := c.ParamsInt("id")
 	central, err := h.UseCase.GetCentralByID(uint(id))
@@ -46,13 +63,24 @@ func (h *CentralHandler) GetCentralByID(c *fiber.Ctx) error {
 	return c.JSON(central)
 }
 
-// Update User
+// Update Central
 func (h *CentralHandler) UpdateCentral(c *fiber.Ctx) error {
 	id, _ := c.ParamsInt("id")
 	var central domain.Central
+
+	// Parse JSON do corpo da requisição
 	if err := c.BodyParser(&central); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid payload"})
 	}
+
+	// Validação usando Validator
+	if err := h.Validator.Struct(central); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": utils.FormatValidationErrors(err),
+		})
+	}
+
+	// Define o ID da central antes de atualizar
 	central.ID = uint(id)
 	if err := h.UseCase.UpdateCentral(&central); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
@@ -60,7 +88,7 @@ func (h *CentralHandler) UpdateCentral(c *fiber.Ctx) error {
 	return c.JSON(central)
 }
 
-// Delete User
+// Delete Central
 func (h *CentralHandler) DeleteCentral(c *fiber.Ctx) error {
 	id, _ := c.ParamsInt("id")
 	if err := h.UseCase.DeleteCentral(uint(id)); err != nil {
