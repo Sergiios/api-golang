@@ -2,19 +2,26 @@ package handler
 
 import (
 	"api-golang/internal/domain"
-	"api-golang/internal/usecase"
 	"api-golang/internal/utils"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 )
 
+type CentralUseCase interface {
+	CreateCentral(central *domain.Central) error
+	GetAllCentrals() ([]domain.Central, error)
+	GetCentralByID(id uint) (*domain.Central, error)
+	UpdateCentral(central *domain.Central) error
+	DeleteCentral(id uint) error
+}
+
 type CentralHandler struct {
-	UseCase   *usecase.CentralUseCase
+	UseCase   CentralUseCase
 	Validator *validator.Validate
 }
 
-func NewCentralHandler(uc *usecase.CentralUseCase) *CentralHandler {
+func NewCentralHandler(uc CentralUseCase) *CentralHandler {
 	return &CentralHandler{
 		UseCase:   uc,
 		Validator: validator.New(),
