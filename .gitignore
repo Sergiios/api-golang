@@ -1,0 +1,52 @@
+# Diretórios e arquivos gerados pelo Go
+/bin/
+/pkg/
+/vendor/
+
+# Arquivos de build e executáveis
+*.exe
+*.dll
+*.so
+*.dylib
+*.out
+*.test
+
+# Módulos do Go
+go.sum
+go.work
+
+# Diretórios do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos temporários e caches
+*.log
+*.tmp
+*.swp
+*.lock
+*.bak
+*.old
+*.tar.gz
+*.zip
+*.tgz
+
+# Arquivos de IDEs/editores
+.idea/
+*.iml
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Arquivos de teste
+coverage.out
+*.prof
+testdata/
+
+# Arquivos do banco de dados
+*.db
+*.sqlite
+*.sqlite3
+
+# Arquivos do sistema operacional
+*.~undo-tree
+*.~undo-tree~undo-tree
