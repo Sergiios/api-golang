@@ -19,6 +19,7 @@ Este é um projeto de API desenvolvido em Go utilizando as seguintes tecnologias
 - [Testes Unitários](#testes-unitários)
 - [Estrutura do Projeto](#estrutura-do-projeto)
 - [Contribuindo](#contribuindo)
+- [Melhorias Futuras](#melhorias-futuras)
 
 ---
 
@@ -49,8 +50,8 @@ A API oferece um CRUD para gerenciamento de "Centrais", com as seguintes operaç
 
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/seu-usuario/seu-repositorio.git
-   cd seu-repositorio
+   git clone https://github.com/Sergiios/api-golang.git
+   cd api-golang
    ```
 
 2. Instale as dependências:
@@ -172,5 +173,59 @@ Contribuições são bem-vindas! Siga os passos abaixo para colaborar:
    git push origin minha-feature
    ```
 5. Abra um Pull Request.
+
+---
+
+---
+
+## **Melhorias Futuras**
+
+Aqui estão algumas ideias e melhorias que podem ser implementadas no futuro para aprimorar o projeto:
+
+### **Funcionalidades**
+- **Autenticação e Autorização**:
+  - Implementar autenticação de usuários com tokens JWT.
+  - Adicionar diferentes níveis de autorização para proteger endpoints (ex.: admin, user).
+  
+- **Busca Avançada**:
+  - Implementar filtros, ordenação e paginação para o endpoint de listagem de centrais.
+  - Adicionar suporte a buscas por nome, MAC ou IP.
+
+- **Notificações**:
+  - Integrar um sistema de notificações para alertar eventos importantes, como erros ou atualizações.
+
+- **Logs e Monitoramento**:
+  - Adicionar logs estruturados para depuração e análise.
+  - Integrar ferramentas de monitoramento, como Prometheus e Grafana.
+
+### **Melhorias Técnicas**
+- **Banco de Dados**:
+  - Migrar para um banco de dados relacional mais robusto em produção, como PostgreSQL.
+  - Configurar migrações de banco de dados usando uma biblioteca como [golang-migrate](https://github.com/golang-migrate/migrate).
+
+- **Testes**:
+  - Expandir os testes unitários para cobrir cenários adicionais.
+  - Adicionar testes de integração para validar fluxos completos entre diferentes camadas.
+  - Configurar testes automatizados em um pipeline de CI/CD.
+
+- **Documentação**:
+  - Melhorar a documentação com exemplos detalhados de uso da API.
+  
+- **Escalabilidade**:
+  - Adicionar suporte a caching (ex.: Redis) para melhorar o desempenho em endpoints de leitura.
+  - Suporte para executar em ambientes com múltiplas réplicas (horizontal scaling).
+
+### **DevOps**
+- **Contêinerização**:
+  - Adicionar um `Dockerfile` para facilitar a execução e deploy do projeto.
+  - Criar um `docker-compose` para gerenciar o banco de dados e a aplicação juntos.
+
+- **CI/CD**:
+  - Configurar um pipeline automatizado para testes, build e deploy usando GitHub Actions ou GitLab CI/CD.
+
+### **Interface do Usuário**
+- **Frontend**:
+  - Desenvolver uma interface gráfica para consumir a API.
+  - Criar dashboards para visualizar dados das centrais em tempo real.
 
 ---
